@@ -19,11 +19,11 @@ def censor():
             palabrota = Palabrota()
             response = palabrota.contains_palabrota(in_message)
             if response == True:
-                # message = "Lávate la boquita"
-                return True
+                message = "Lávate la boquita"
+                return message
             else:
-                # message = in_message
-                return False
+                message = in_message
+                return message
             # censored = palabrota.censor(in_message)
             # response = {
             #     "success": True,
