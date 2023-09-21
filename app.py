@@ -10,12 +10,12 @@ from flask import Flask, render_template, request, url_for, flash, redirect
 
 app = Flask(__name__)
 cors = CORS(app)
-uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
-myclient = pymongo.MongoClient(uri)
-db = myclient["group2-back"]
-questions = db["questions"]
+# uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
+# myclient = pymongo.MongoClient(uri)
+# db = myclient["group2-back"]
+# questions = db["questions"]
 
-model = SentenceTransformer('hiiamsid/sentence_similarity_spanish_es')
+# model = SentenceTransformer('hiiamsid/sentence_similarity_spanish_es')
 
 
 @app.route('/')
