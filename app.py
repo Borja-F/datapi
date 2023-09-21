@@ -2,11 +2,26 @@ from flask_cors import CORS, cross_origin
 from flask import request
 from flask import json
 from flask import Flask
-
+import pymongo
+from sentence_transformers import SentenceTransformer
 from spanlp.palabrota import Palabrota
+from scipy.spatial import distance
+from flask import Flask, render_template, request, url_for, flash, redirect
 
 app = Flask(__name__)
 cors = CORS(app)
+uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
+myclient = pymongo.MongoClient(uri)
+db = myclient["group2-back"]
+questions = db["questions"]
+
+model = SentenceTransformer('hiiamsid/sentence_similarity_spanish_es')
+
+
+@app.route('/')
+@cross_origin()
+def home():
+    return render_template('home.html')
 
 @app.route('/api/v1/nlp/text/censor', methods = ['POST'])
 @cross_origin()
@@ -19,22 +34,12 @@ def censor():
             palabrota = Palabrota()
             response = palabrota.contains_palabrota(in_message)
             if response == True:
-                message = "Lávate la boquita"
+
                 return {"censurado":True}
             else:
-                message = in_message
+
                 return {"censurado":False}
-            # censored = palabrota.censor(in_message)
-            # response = {
-            #     "success": True,
-            #     "message": "OK",
-            #     "error_code": 0,
-            #     "data": {
-            #         'message': in_message,
-            #         'censored': censored
-            #     }
-            # }
-            # return response
+
         else:
             return {
                 "success": False,
@@ -50,6 +55,40 @@ def censor():
             "data": {}
         }
 
+
+@app.route('/api/v1/nlp/text/seleccionador', methods = ['POST'])
+@cross_origin()
+def seleccionador():
+
+        try:
+            body = request.json
+            in_message = body['message']
+            embeddings1 = model.encode(in_message)
+            where = {} 
+            select = {"_id":False, "body":True} # cogemos solo el body
+
+            preguntas = list(questions.find(where,select))
+            l_preguntas = [question['body'] for question in preguntas]
+            embeddings = model.encode(l_preguntas)
+            repetido = {"repetido":False}
+            for main in embeddings:
+
+                similarity = (1 - distance.cosine(main, embeddings1))
+
+                if similarity >= 0.68:
+                        repetido = {"repetido":True}
+                        break
+            return repetido
+                     
+            
+
+        except Exception as e:
+            return {
+                "success": False,
+                "message": "Internal Server Error - "+str(e),
+                "error_code": 500,
+                "data": {}
+            }
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
