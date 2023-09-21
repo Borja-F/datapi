@@ -9,7 +9,7 @@ from scipy.spatial import distance
 from flask import Flask, render_template, request, url_for, flash, redirect
 
 app = Flask(__name__)
-cors = CORS(app)
+# cors = CORS(app)
 # uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
 # myclient = pymongo.MongoClient(uri)
 # db = myclient["group2-back"]
@@ -19,12 +19,12 @@ cors = CORS(app)
 
 
 @app.route('/')
-@cross_origin()
+# @cross_origin()
 def home():
     return render_template('home.html')
 
 @app.route('/api/v1/nlp/text/censor', methods = ['POST'])
-@cross_origin()
+# @cross_origin()
 def censor():
     try:
         body = request.json
