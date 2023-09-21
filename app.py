@@ -23,7 +23,7 @@ model = SentenceTransformer('hiiamsid/sentence_similarity_spanish_es')
 def hello():
     return render_template('home.html')
 
-@app.route('/api/v1/nlp/text/censor', methods = ['POST'])
+@app.route('/api/v1/nlp/text/censor', methods = ['PUT'])
 @cross_origin()
 def censor():
     print("what")
