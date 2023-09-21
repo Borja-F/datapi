@@ -34,11 +34,13 @@ def censor():
             palabrota = Palabrota()
             response = palabrota.contains_palabrota(in_message)
             if response == True:
+                msg = "Me estoy volviendo loco"
 
-                return {"censurado":True}
+                return msg, {"censurado":True}
             else:
+                msg = "Me estoy volviendo loco"
 
-                return {"censurado":False}
+                return msg, {"censurado":False}
 
         else:
             return {
