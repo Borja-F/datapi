@@ -26,13 +26,17 @@ def hello():
 @app.route('/api/v1/nlp/text/censor', methods = ['POST'])
 @cross_origin()
 def censor():
+    print("what")
     try:
         body = request.json
         in_message = body['message']
+        print("what")
         
         if in_message and len(str(in_message).strip()):
+            print("what")
             palabrota = Palabrota()
             response = palabrota.contains_palabrota(in_message)
+            print("what")
             if response == True:
                 msg = "Me estoy volviendo loco"
 
@@ -41,16 +45,19 @@ def censor():
                 msg = "Me estoy volviendo loco"
 
                 return msg, {"censurado":False}
+            print("what")
 
         else:
-            return {
+            print("what")
+            return "what", {
                 "success": False,
                 "message": "Bad Request - message is required",
                 "error_code": 400,
                 "data": {}
-            }
+            } 
+        
     except Exception as e:
-        return {
+        return "what",{
             "success": False,
             "message": "Internal Server Error - "+str(e),
             "error_code": 500,
