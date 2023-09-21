@@ -18,12 +18,12 @@ questions = db["questions"]
 model = SentenceTransformer('hiiamsid/sentence_similarity_spanish_es')
 
 
+
 @app.route('/')
-@cross_origin()
-def home():
+def hello():
     return render_template('home.html')
 
-@app.route('/api/v1/nlp/text/censor', methods = ['POST'])
+@app.route('/api/v1/nlp/text/censor', methods = ['GET'])
 @cross_origin()
 def censor():
     try:
@@ -56,7 +56,7 @@ def censor():
         }
 
 
-@app.route('/api/v1/nlp/text/seleccionador', methods = ['POST'])
+@app.route('/api/v1/nlp/text/seleccionador', methods = ['GET'])
 @cross_origin()
 def seleccionador():
 
@@ -91,7 +91,7 @@ def seleccionador():
             }
 
 
-# if __name__ == '__main__':
-#     app.run(use_reloader=True, debug=True)
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(use_reloader=True, debug=True)
+# if __name__ == '__main__':
+#     app.run(host='127.0.0.1', port=5000, debug=True)
