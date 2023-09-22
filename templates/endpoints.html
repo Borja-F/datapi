@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endpoints</title>
+    <style>
+        /* Style for the header */
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Style for collapsible boxes */
+        .endpoint-box {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+        }
+
+        .endpoint-name {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .endpoint-details {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Endpoints</div>
+    
+    <!-- First Collapsible Box -->
+    <div class="endpoint-box">
+        <div class="endpoint-name">Endpoint 1</div>
+        <div class="endpoint-details">
+            <p><strong>Endpoint:</strong> /api/endpoint1</p>
+            <p><strong>Descripción:</strong> Description for Endpoint 1</p>
+            <p><strong>Ruta:</strong> /path/to/endpoint1</p>
+            <p><strong>Método:</strong> GET</p>
+            <p><strong>Ejemplo:</strong> Example for Endpoint 1</p>
+        </div>
+    </div>
+
+    <!-- Second Collapsible Box -->
+    <div class="endpoint-box">
+        <div class="endpoint-name">Endpoint 2</div>
+        <div class="endpoint-details">
+            <p><strong>Endpoint:</strong> /api/endpoint2</p>
+            <p><strong>Descripción:</strong> Description for Endpoint 2</p>
+            <p><strong>Ruta:</strong> /path/to/endpoint2</p>
+            <p><strong>Método:</strong> POST</p>
+            <p><strong>Ejemplo:</strong> Example for Endpoint 2</p>
+        </div>
+    </div>
+
+    <!-- Add more collapsible boxes as needed -->
+
+    <script>
+        // JavaScript to toggle the visibility of endpoint details
+        const endpointNames = document.querySelectorAll('.endpoint-name');
+
+        endpointNames.forEach(name => {
+            name.addEventListener('click', () => {
+                const details = name.nextElementSibling;
+                details.style.display = details.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

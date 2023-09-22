@@ -35,7 +35,7 @@ engine = create_engine('postgresql://fl0user:ClU4ueygKz9G@ep-red-butterfly-89282
 
 @app.route('/')
 def hello():
-    return render_template('home.html')
+    return render_template('endpoints.html')
 
 @app.route('/api/v1/nlp/text/censor', methods = ['POST'])
 @cross_origin()
