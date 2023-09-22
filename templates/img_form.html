@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cargar Imagen</title>
+</head>
+<body>
+    <h1>Cargar Imagen para Análisis</h1>
+
+    <form action="/img_det" method="post" enctype="multipart/form-data">
+        <label for="imagen">Selecciona una imagen:</label>
+        <input type="file" name="image" accept=".jpg, .jpeg, .png">
+        <br><br>
+        <input type="submit" value="Enviar">
+    </form>
+</body>
+</html>
