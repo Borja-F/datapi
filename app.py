@@ -38,9 +38,9 @@ def censor():
             response = palabrota.contains_palabrota(in_message)
             print("what")
             if response == True:
-                msg = "Me estoy volviendo loco"
+                
 
-                return msg, {"censurado":True}
+                return {"censurado":True}
             else:
                 msg = "Me estoy volviendo loco"
 
