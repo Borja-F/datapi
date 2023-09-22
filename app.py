@@ -56,8 +56,7 @@ def censor():
 
                 return {"censurado":True}
             else:
-                msg = "Me estoy volviendo loco"
-
+                
                 return {"censurado":False}
            
 
@@ -128,6 +127,36 @@ def img_nsfw():
         return render_template('img_form.html')
 
     return render_template('img_form.html')
+
+
+@app.route("/volcar_coleccion", methods = ["POST"])
+def volcador():
+    source_collection = db['questions']
+    target_collection = db['longterm']
+
+    # get all documents from the source collection
+    documents = list(source_collection.find({}))
+
+    # insert the documents into the target collection
+    target_collection.insert_many(documents)
+
+    return "Colección volcada con éxito", 200
+
+
+
+
+
+@app.route("/vaciar_coleccion", methods = ["POST"])
+def vaciador():
+    collection = db['duplicate']
+
+
+    collection.delete_many({})
+    return "Colección vaciada con éxito", 200
+
+
+
+
 
 
 
