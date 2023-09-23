@@ -1,6 +1,7 @@
 from flask_cors import CORS, cross_origin
 from flask import request
-from flask import json
+from flask import json, send_file
+
 from flask import Flask
 import pymongo
 # from sentence_transformers import SentenceTransformer
@@ -13,15 +14,32 @@ import numpy as np
 import os
 import pandas as pd
 import numpy as np
+from docx import Document
 
 import psycopg2
 from sqlalchemy import create_engine
 from datetime import datetime
+import secrets
+import string
+
+
+from config import Config
+from spanlp.palabrota import Palabrota
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from config import Config
+
+
+
+
+
 
 
 
 
 app = Flask(__name__)
+app.config.from_object(Config)  # Configure your Flask app with the Config class
+db_api = SQLAlchemy(app)
 cors = CORS(app)
 uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
 myclient = pymongo.MongoClient(uri)
@@ -37,7 +55,7 @@ engine = create_engine('postgresql://fl0user:ClU4ueygKz9G@ep-red-butterfly-89282
 def hello():
     return render_template('endpoints.html')
 
-@app.route('/api/v1/nlp/text/censor', methods = ['POST'])
+@app.route('/api/text/censor', methods = ['POST'])
 @cross_origin()
 def censor():
    
@@ -109,6 +127,8 @@ def img_nsfw():
 
             # Realiza la solicitud POST con los datos y encabezados
             response = requests.post(url, files=data, headers=headers)
+            json_response = response.json()
+            unsafe_value = {"unsafe":json_response['unsafe']}
             
             # Meter todo en base d datos:
 
@@ -123,7 +143,7 @@ def img_nsfw():
             df.to_sql(name="pic_control",if_exists='append',con=engine, index = False)
             
             
-            return jsonify(response.json())
+            return unsafe_value
         return render_template('img_form.html')
 
     return render_template('img_form.html')
@@ -143,12 +163,33 @@ def volcador():
     return "Colección volcada con éxito", 200
 
 
+@app.route("/descargar_preguntas", methods = ["POST"])
+def descargador():
+
+    where = {} 
+    select = {"_id":False, "body":True}
+    preguntas = list(questions.find(where,select))
+    l_preguntas = [question['body'] for question in preguntas]
+
+    # create a new Word document
+    doc = Document()
+
+    # add each item in the list to the document
+    for item in l_preguntas:
+        doc.add_paragraph(item)
+
+    # save the document
+    file_path = 'Preguntas.docx'
+    doc.save(file_path)
+
+    return send_file(file_path, as_attachment=True)
+
 
 
 
 @app.route("/vaciar_coleccion", methods = ["POST"])
 def vaciador():
-    collection = db['duplicate']
+    collection = db['questions']
 
 
     collection.delete_many({})
@@ -156,7 +197,13 @@ def vaciador():
 
 
 
-
+@app.route('/api/v1/admin/generate_api_key', methods=['POST'])
+def generate_api_key():
+    from models import APIKey
+    api_key = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(Config.API_KEY_LENGTH))
+    db_api.session.add(APIKey(key=api_key))
+    db_api.session.commit()
+    return api_key
 
 
 

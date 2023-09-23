@@ -11,6 +11,6 @@ pymongo==4.5.0
 scipy
 numpy
 requests
-
+python-docx
 
 

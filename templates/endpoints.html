@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Endpoints</title>
     <style>
+        /* Style for the body */
+        body {
+            background-color: #282828;
+            color: #f0f0f0;
+            font-size: 18px;
+        }
+
         /* Style for the header */
         .header {
             font-size: 36px;
             font-weight: bold;
-            color: #4a4a4a;
+            color: #f9f9f9;
             text-align: center;
             margin-bottom: 20px;
         }
@@ -20,13 +27,13 @@
             border-radius: 5px;
             margin: 10px;
             padding: 10px;
-            background-color: #f9f9f9;
+            background-color: #383838;
         }
 
         .endpoint-name {
             cursor: pointer;
             font-weight: bold;
-            color: #2a2a2a;
+            color: #f9f9f9;
         }
 
         .endpoint-details {
@@ -40,29 +47,77 @@
 
     <!-- First Collapsible Box -->
     <div class="endpoint-box">
-        <div class="endpoint-name">Endpoint 1</div>
+        <div class="endpoint-name">Censor texto</div>
         <div class="endpoint-details">
-            <p><strong>Endpoint:</strong> /api/endpoint1</p>
-            <p><strong>Descripción:</strong> Description for Endpoint 1</p>
-            <p><strong>Ruta:</strong> /path/to/endpoint1</p>
-            <p><strong>Método:</strong> GET</p>
-            <p><strong>Ejemplo:</strong> Example for Endpoint 1</p>
+            <p><strong>Endpoint:</strong> /api/text/censor</p>
+            <p><strong>Descripción:</strong>Este endpoint obtiene texto, y en función de si es censurable o no devuelve un objecto {"censurar":true} o {"censurar":false}</p>
+            <p><strong>Ruta:</strong> https://datapi-9xvl-dev.fl0.io/api/text/censor</p>
+            <p><strong>Método:</strong> POST</p>
+            <p><strong>Ejemplo input:</strong> data = {"message":"Pon lo que quieras aquí"}</p>
         </div>
     </div>
 
     <!-- Second Collapsible Box -->
     <div class="endpoint-box">
-        <div class="endpoint-name">Endpoint 2</div>
+        <div class="endpoint-name">Censor imagenes</div>
         <div class="endpoint-details">
-            <p><strong>Endpoint:</strong> /api/endpoint2</p>
-            <p><strong>Descripción:</strong> Description for Endpoint 2</p>
-            <p><strong>Ruta:</strong> /path/to/endpoint2</p>
+            <p><strong>Endpoint:</strong> /img_det</p>
+            <p><strong>Descripción:</strong>Este endpoint obtiene una imagen, y en función de si es censurable o no devuelve un objecto {"unsafe":true} o {"unsafe":false}</p>
+            <p><strong>Ruta:</strong> https://datapi-9xvl-dev.fl0.io/img_det</p>
             <p><strong>Método:</strong> POST</p>
-            <p><strong>Ejemplo:</strong> Example for Endpoint 2</p>
+            <!-- <p><strong>Ejemplo input:</strong> Mandad una imagen</p> -->
         </div>
     </div>
 
     <!-- Add more collapsible boxes as needed -->
+
+    <div class="endpoint-box">
+        <div class="endpoint-name">Almacenaje a largo plazo</div>
+        <div class="endpoint-details">
+            <p><strong>Endpoint:</strong> /volcar_coleccion</p>
+            <p><strong>Descripción:</strong> Volcar la colección de preguntas a una colección donde se almacena a largo plazo</p>
+            <p><strong>Ruta:</strong> https://datapi-9xvl-dev.fl0.io/volcar_coleccion</p>
+            <p><strong>Método:</strong> POST</p>
+            <!-- <p><strong>Ejemplo input:</strong> Example for Endpoint 2</p> -->
+        </div>
+    </div>
+
+
+
+    <div class="endpoint-box">
+        <div class="endpoint-name">Descargar preguntas</div>
+        <div class="endpoint-details">
+            <p><strong>Endpoint:</strong> /descargar_preguntas</p>
+            <p><strong>Descripción:</strong>Genera un .docx para descargar con las preguntas almacenadas en la colección questions. En la peticion hay que hacer send and download</p>
+            <p><strong>Ruta:</strong> https://datapi-9xvl-dev.fl0.io/descargar_preguntas</p>
+            <p><strong>Método:</strong> POST</p>
+            <!-- <p><strong>Ejemplo input:</strong> Example for Endpoint 2</p> -->
+        </div>
+    </div>
+
+    
+    <div class="endpoint-box">
+        <div class="endpoint-name">Borrar Preguntas</div>
+        <div class="endpoint-details">
+            <p><strong>Endpoint:</strong> /vaciar_coleccion</p>
+            <p><strong>Descripción:</strong>Vacia la colección de preguntas</p>
+            <p><strong>Ruta:</strong> https://datapi-9xvl-dev.fl0.io/vaciar_coleccion</p>
+            <p><strong>Método:</strong> POST</p>
+            <!-- <p><strong>Ejemplo input:</strong> Example for Endpoint 2</p> -->
+        </div>
+    </div>
+
+
+    <div class="endpoint-box">
+        <div class="endpoint-name">Borrar Preguntas</div>
+        <div class="endpoint-details">
+            <p><strong>Endpoint:</strong> /vaciar_coleccion</p>
+            <p><strong>Descripción:</strong>Vacia la colección de preguntas</p>
+            <p><strong>Ruta:</strong> https://datapi-9xvl-dev.fl0.io/vaciar_coleccion</p>
+            <p><strong>Método:</strong> POST</p>
+            <!-- <p><strong>Ejemplo input:</strong> Example for Endpoint 2</p> -->
+        </div>
+    </div>
 
     <script>
         // JavaScript to toggle the visibility of endpoint details
@@ -77,4 +132,6 @@
     </script>
 </body>
 </html>
+
+
 
