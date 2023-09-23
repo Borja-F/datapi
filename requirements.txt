@@ -12,5 +12,6 @@ scipy
 numpy
 requests
 python-docx
+Flask-SQLAlchemy
 
 
