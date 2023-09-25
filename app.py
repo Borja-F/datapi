@@ -1,15 +1,10 @@
 from flask_cors import CORS, cross_origin
-from flask import request
-from flask import json, send_file
+from flask import Flask, request, json, send_file, render_template, url_for, flash, redirect, jsonify
 
-from flask import Flask
 import pymongo
 # from sentence_transformers import SentenceTransformer
 from spanlp.palabrota import Palabrota
-from scipy.spatial import distance
-from flask import Flask, render_template, request, url_for, flash, redirect
-from flask import Flask, request, render_template, jsonify
-import numpy as np
+# from scipy.spatial import distance
 # import replicate
 import os
 import pandas as pd
@@ -21,14 +16,14 @@ from sqlalchemy import create_engine
 from datetime import datetime
 import secrets
 import string
-
+import qrcode
+import base64
+import io
 
 from config import Config
 from spanlp.palabrota import Palabrota
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
-from config import Config
-
+import requests
 
 
 
@@ -103,10 +98,11 @@ def censor():
 @app.route("/img_det", methods=["GET", "POST"])
 @cross_origin()
 def img_nsfw():
-    import requests
+    
     if request.method == "POST":
         # Obtener el archivo de imagen desde el formulario
         img = request.files['image']
+        user = request.headers["authorization"]
         print(img)
         # Verificar si se seleccionó un archivo
         if img:
@@ -130,10 +126,10 @@ def img_nsfw():
             json_response = response.json()
             unsafe_value = {"unsafe":json_response['unsafe']}
             
-            # Meter todo en base d datos:
+            # Meter todo en base de datos:
 
             cols = {
-                'user':'-',
+                'user':user,
                 'img': data,
                 'response':str(response.json()['objects']),
                 'unsafe':str(response.json()['unsafe'])
@@ -205,6 +201,61 @@ def generate_api_key():
     db_api.session.commit()
     return api_key
 
+
+@app.route('/generate_qr_usuario', methods=['GET'])
+def generate_qr_ususario():
+    #Aquí, estás obteniendo los datos JSON que se envían con la solicitud. Estos datos se almacenan en la variable data
+    data = request.get_json()
+    #Aquí, estás extrayendo el valor de ‘id_usuario’ de los datos JSON y almacenándolo en la variable id_usuario.
+    id_usuario = data['id_usuario']
+
+    #Se crea un objeto QRCode y añades los datos del id_usuario al código QR.
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(id_usuario)
+    qr.make(fit=True)
+
+    #Aquí, estás generando una imagen del código QR con el color de fondo blanco y los cuadrados del código QR en negro.
+    img = qr.make_image(fill='black', back_color='white')
+    #Estás creando un objeto BytesIO para almacenar temporalmente la imagen del código QR.
+    buffered = io.BytesIO()
+    #Aquí, estás guardando la imagen del código QR en el objeto BytesIO en formato JPEG.
+    img.save(buffered, format="JPEG")
+
+    #Estás codificando la imagen del código QR en base64 para poder enviarla como una cadena de texto.
+    img_str = base64.b64encode(buffered.getvalue())
+    #estás devolviendo un objeto JSON con la imagen del código QR codificada en base64 y un código de estado HTTP 200 para indicar que la solicitud se ha procesado con éxito.
+    return jsonify({'qr_code': img_str.decode('utf-8')}), 200
+
+
+
+@app.route('/generate_qr_usuario_evento', methods=['GET'])
+def generate_qr_ususario_evento():
+    data = request.get_json()
+    id_usuario = data['id_usuario']
+    id_evento = data['id_evento']
+
+    qr_data = f"Usuario: {id_usuario}, Evento: {id_evento}"
+
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill='black', back_color='white')
+    buffered = io.BytesIO()
+    img.save(buffered, format="JPEG")
+
+    img_str = base64.b64encode(buffered.getvalue())
+    return jsonify({'qr_code': img_str.decode('utf-8')}), 200
 
 
 # @app.route('/api/v1/nlp/text/seleccionador', methods = ['POST'])
