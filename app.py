@@ -23,18 +23,11 @@ import io
 from config import Config
 from spanlp.palabrota import Palabrota
 from flask_sqlalchemy import SQLAlchemy
-import requests
-from models import APIKey
-
-
-
-
-
-
+from extensions import db_api  # Import db_api from extensions.py
 
 app = Flask(__name__)
 app.config.from_object(Config)  # Configure your Flask app with the Config class
-db_api = SQLAlchemy(app)
+db_api.init_app(app)  # Initialize db_api with the app
 cors = CORS(app)
 uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
 myclient = pymongo.MongoClient(uri)
@@ -43,6 +36,7 @@ questions = db["questions"]
 os.environ['REPLICATE_API_TOKEN'] = "r8_3Cn377wOsZ8ywqtFyCCicG5JwHqpHYS0sONIW"
 engine = create_engine('postgresql://fl0user:ClU4ueygKz9G@ep-red-butterfly-89282058.eu-central-1.aws.neon.tech:5432/spaces?sslmode=require')
 # model = SentenceTransformer('hiiamsid/sentence_similarity_spanish_es')
+
 
 
 
@@ -489,40 +483,6 @@ def generate_qr_ususario_evento():
             "data": {}
         }), 500
 
-
-# @app.route('/api/v1/nlp/text/seleccionador', methods = ['POST'])
-# @cross_origin()
-# def seleccionador():
-
-#         try:
-#             body = request.json
-#             in_message = body['message']
-#             embeddings1 = model.encode(in_message)
-#             where = {} 
-#             select = {"_id":False, "body":True} # cogemos solo el body
-
-#             preguntas = list(questions.find(where,select))
-#             l_preguntas = [question['body'] for question in preguntas]
-#             embeddings = model.encode(l_preguntas)
-#             repetido = {"repetido":False}
-#             for main in embeddings:
-
-#                 similarity = (1 - distance.cosine(main, embeddings1))
-
-#                 if similarity >= 0.68:
-#                         repetido = {"repetido":True}
-#                         break
-#             return repetido
-                     
-            
-
-#         except Exception as e:
-#             return {
-#                 "success": False,
-#                 "message": "Internal Server Error - "+str(e),
-#                 "error_code": 500,
-#                 "data": {}
-#             }
 
 
 # if __name__ == '__main__':
