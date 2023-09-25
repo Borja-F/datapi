@@ -23,11 +23,18 @@ import io
 from config import Config
 from spanlp.palabrota import Palabrota
 from flask_sqlalchemy import SQLAlchemy
-from extensions import db_api  # Import db_api from extensions.py
+import requests
+
+
+
+
+
+
+
 
 app = Flask(__name__)
 app.config.from_object(Config)  # Configure your Flask app with the Config class
-db_api.init_app(app)  # Initialize db_api with the app
+db_api = SQLAlchemy(app)
 cors = CORS(app)
 uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
 myclient = pymongo.MongoClient(uri)
@@ -39,7 +46,6 @@ engine = create_engine('postgresql://fl0user:ClU4ueygKz9G@ep-red-butterfly-89282
 
 
 
-
 @app.route('/')
 def hello():
     return render_template('endpoints.html')
@@ -47,6 +53,7 @@ def hello():
 @app.route('/api/text/censor', methods = ['POST'])
 @cross_origin()
 def censor():
+    from models import APIKey
     try:
         api_key = request.headers.get('API-Key')
 
@@ -59,7 +66,7 @@ def censor():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = APIKey.query.filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
