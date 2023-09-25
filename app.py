@@ -1,16 +1,11 @@
 from flask_cors import CORS, cross_origin
 from flask import Flask, request, json, send_file, render_template, url_for, flash, redirect, jsonify
-
 import pymongo
-# from sentence_transformers import SentenceTransformer
 from spanlp.palabrota import Palabrota
-# from scipy.spatial import distance
-# import replicate
 import os
 import pandas as pd
 import numpy as np
 from docx import Document
-
 import psycopg2
 from sqlalchemy import create_engine
 from datetime import datetime
@@ -19,21 +14,17 @@ import string
 import qrcode
 import base64
 import io
-
 from config import Config
-from spanlp.palabrota import Palabrota
 from flask_sqlalchemy import SQLAlchemy
 import requests
-
-
-
+import models
 
 
 
 
 
 app = Flask(__name__)
-app.config.from_object(Config)  # Configure your Flask app with the Config class
+app.config.from_object(Config) 
 db_api = SQLAlchemy(app)
 cors = CORS(app)
 uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
@@ -42,7 +33,7 @@ db = myclient["group2-back"]
 questions = db["questions"]
 os.environ['REPLICATE_API_TOKEN'] = "r8_3Cn377wOsZ8ywqtFyCCicG5JwHqpHYS0sONIW"
 engine = create_engine('postgresql://fl0user:ClU4ueygKz9G@ep-red-butterfly-89282058.eu-central-1.aws.neon.tech:5432/spaces?sslmode=require')
-# model = SentenceTransformer('hiiamsid/sentence_similarity_spanish_es')
+
 
 
 
@@ -124,7 +115,7 @@ def censor():
 @app.route("/img_det", methods=["GET", "POST"])
 @cross_origin()
 def img_nsfw():
-    from models import APIKey
+    
     try:
         api_key = request.headers.get('API-Key')
 
@@ -137,7 +128,7 @@ def img_nsfw():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(models.APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
