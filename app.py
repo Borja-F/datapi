@@ -17,7 +17,6 @@ import io
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 import requests
-import models
 
 
 
@@ -115,7 +114,7 @@ def censor():
 @app.route("/img_det", methods=["GET", "POST"])
 @cross_origin()
 def img_nsfw():
-    
+    from models import APIKey
     try:
         api_key = request.headers.get('API-Key')
 
@@ -128,7 +127,7 @@ def img_nsfw():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = db_api.session.query(models.APIKey).filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
