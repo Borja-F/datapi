@@ -124,6 +124,7 @@ def censor():
 @app.route("/img_det", methods=["GET", "POST"])
 @cross_origin()
 def img_nsfw():
+    from models import APIKey
     try:
         api_key = request.headers.get('API-Key')
 
@@ -136,7 +137,7 @@ def img_nsfw():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = APIKey.query.filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
@@ -200,6 +201,7 @@ def img_nsfw():
 
 @app.route("/volcar_coleccion", methods = ["POST"])
 def volcador():
+    from models import APIKey
     try:
         api_key = request.headers.get('API-Key')
 
@@ -212,7 +214,7 @@ def volcador():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = APIKey.query.filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
@@ -241,6 +243,7 @@ def volcador():
 
 @app.route("/descargar_preguntas", methods = ["POST"])
 def descargador():
+    from models import APIKey
 
     try:
         api_key = request.headers.get('API-Key')
@@ -254,7 +257,7 @@ def descargador():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = APIKey.query.filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
@@ -294,6 +297,7 @@ def descargador():
 
 @app.route("/vaciar_coleccion", methods = ["POST"])
 def vaciador():
+    from models import APIKey
 
 
     try:
@@ -308,7 +312,7 @@ def vaciador():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = APIKey.query.filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
@@ -336,6 +340,7 @@ def vaciador():
 
 @app.route('/api/v1/admin/generate_api_key', methods=['POST'])
 def generate_api_key():
+    from models import APIKey
 
     try:
         api_key = request.headers.get('API-Key')
@@ -349,7 +354,7 @@ def generate_api_key():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = APIKey.query.filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
@@ -376,6 +381,7 @@ def generate_api_key():
 
 @app.route('/generate_qr_usuario', methods=['GET'])
 def generate_qr_ususario():
+    from models import APIKey
 
     try:
         api_key = request.headers.get('API-Key')
@@ -389,7 +395,7 @@ def generate_qr_ususario():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = APIKey.query.filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
@@ -437,6 +443,7 @@ def generate_qr_ususario():
 
 @app.route('/generate_qr_usuario_evento', methods=['GET'])
 def generate_qr_ususario_evento():
+    from models import APIKey
         
 
     try:
@@ -451,7 +458,7 @@ def generate_qr_ususario_evento():
             }), 401
 
         # Check if the API key exists in the database
-        api_key_record = APIKey.query.filter_by(key=api_key).first()
+        api_key_record = db_api.session.query(APIKey).filter_by(key=api_key).first()
         if not api_key_record:
             return jsonify({
                 "success": False,
