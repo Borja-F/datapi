@@ -139,7 +139,7 @@ def img_nsfw():
         if request.method == "POST":
             # Obtener el archivo de imagen desde el formulario
             img = request.files['image']
-            # user = request.headers["authorization"]
+            user = request.headers["authorization"]
             print(img)
             # Verificar si se seleccionó un archivo
             if img:
@@ -166,7 +166,7 @@ def img_nsfw():
                 # Meter todo en base de datos:
 
                 cols = {
-                    'user':"user",
+                    'user':user,
                     'img': data,
                     'response':str(response.json()['objects']),
                     'unsafe':str(response.json()['unsafe'])
