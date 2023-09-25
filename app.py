@@ -224,7 +224,7 @@ def generate_qr_ususario():
     #Estás creando un objeto BytesIO para almacenar temporalmente la imagen del código QR.
     buffered = io.BytesIO()
     #Aquí, estás guardando la imagen del código QR en el objeto BytesIO en formato JPEG.
-    img.save(buffered, format="JPEG")
+    img.save(buffered)
 
     #Estás codificando la imagen del código QR en base64 para poder enviarla como una cadena de texto.
     img_str = base64.b64encode(buffered.getvalue())
@@ -252,7 +252,7 @@ def generate_qr_ususario_evento():
 
     img = qr.make_image(fill='black', back_color='white')
     buffered = io.BytesIO()
-    img.save(buffered, format="JPEG")
+    img.save(buffered)
 
     img_str = base64.b64encode(buffered.getvalue())
     return jsonify({'qr_code': img_str.decode('utf-8')}), 200
