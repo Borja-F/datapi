@@ -166,7 +166,7 @@ def img_nsfw():
                 # Meter todo en base de datos:
 
                 cols = {
-                    'user':user,
+                    'user':"user",
                     'img': data,
                     'response':str(response.json()['objects']),
                     'unsafe':str(response.json()['unsafe'])
