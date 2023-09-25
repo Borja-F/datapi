@@ -53,7 +53,6 @@ def hello():
 @app.route('/api/text/censor', methods = ['POST'])
 @cross_origin()
 def censor():
-
     
    
     try:
