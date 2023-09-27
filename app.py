@@ -371,7 +371,7 @@ def generate_api_key():
         }), 500
 
 
-@app.route('/generate_qr_usuario', methods=['GET'])
+@app.route('/generate_qr_usuario', methods=['POST'])
 def generate_qr_ususario():
     from models import APIKey
 
@@ -433,7 +433,7 @@ def generate_qr_ususario():
 
 
 
-@app.route('/generate_qr_usuario_evento', methods=['GET'])
+@app.route('/generate_qr_usuario_evento', methods=['POST'])
 def generate_qr_ususario_evento():
     from models import APIKey
         
