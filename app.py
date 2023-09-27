@@ -26,14 +26,12 @@ app = Flask(__name__)
 app.config.from_object(Config) 
 db_api = SQLAlchemy(app)
 cors = CORS(app)
-uri = os.getenv("uri")
-# uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
+uri = "mongodb+srv://adrianpastorlopez09:nHSgK7jFZNLPANx6@cluster0.uw7fvq9.mongodb.net/"
 myclient = pymongo.MongoClient(uri)
 db = myclient["group2-back"]
 questions = db["questions"]
 os.environ['REPLICATE_API_TOKEN'] = "r8_3Cn377wOsZ8ywqtFyCCicG5JwHqpHYS0sONIW"
-engine = create_engine("apibase")
-# engine = create_engine('postgresql://fl0user:ClU4ueygKz9G@ep-red-butterfly-89282058.eu-central-1.aws.neon.tech:5432/spaces?sslmode=require')
+engine = create_engine('postgresql://fl0user:ClU4ueygKz9G@ep-red-butterfly-89282058.eu-central-1.aws.neon.tech:5432/spaces?sslmode=require')
 
 
 
