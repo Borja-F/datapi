@@ -33,7 +33,7 @@ db = myclient["group2-back"]
 questions = db["questions"]
 os.environ['REPLICATE_API_TOKEN'] = "r8_3Cn377wOsZ8ywqtFyCCicG5JwHqpHYS0sONIW"
 apibase = os.getenv("apibase")
-engine = create_engine(apibase, pre_ping=True)
+engine = create_engine(apibase)
 # engine = create_engine('postgresql://fl0user:ClU4ueygKz9G@ep-red-butterfly-89282058.eu-central-1.aws.neon.tech:5432/spaces?sslmode=require')
 
 
